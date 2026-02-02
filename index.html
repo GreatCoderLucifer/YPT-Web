@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFlow - Your Study Companion</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>📚 StudyFlow</h1>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-view="dashboard">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-btn" data-view="subjects">
+                    <span class="icon">📖</span>
+                    <span>Subjects</span>
+                </button>
+                <button class="nav-btn" data-view="timer">
+                    <span class="icon">⏱️</span>
+                    <span>Timer</span>
+                </button>
+                <button class="nav-btn" data-view="calendar">
+                    <span class="icon">📅</span>
+                    <span>Calendar</span>
+                </button>
+                <button class="nav-btn" data-view="history">
+                    <span class="icon">📜</span>
+                    <span>History</span>
+                </button>
+                <button class="nav-btn" data-view="stats">
+                    <span class="icon">📈</span>
+                    <span>Statistics</span>
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Dashboard View -->
+            <section class="view active" id="dashboard-view">
+                <div class="view-header">
+                    <h2>Dashboard</h2>
+                    <div class="date-display" id="current-date"></div>
+                </div>
+
+                <!-- Goal Day Section -->
+                <div class="goal-card">
+                    <div class="goal-header">
+                        <h3 id="goal-name">NEET-UG 2026</h3>
+                        <button class="btn-icon" id="edit-goal-btn" title="Edit Goal">✏️</button>
+                    </div>
+                    <div class="goal-stats">
+                        <div class="goal-stat">
+                            <div class="goal-value" id="days-remaining">--</div>
+                            <div class="goal-label">Days Left</div>
+                        </div>
+                        <div class="goal-stat">
+                            <div class="goal-value" id="weeks-remaining">--</div>
+                            <div class="goal-label">Weeks Left</div>
+                        </div>
+                        <div class="goal-stat">
+                            <div class="goal-value" id="time-elapsed">--</div>
+                            <div class="goal-label">Time Elapsed</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="goal-progress"></div>
+                    </div>
+                </div>
+
+                <!-- Today's Summary -->
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <div class="summary-icon">⏰</div>
+                        <div class="summary-content">
+                            <div class="summary-label">Today's Study Time</div>
+                            <div class="summary-value" id="today-total">0h 0m</div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">🔥</div>
+                        <div class="summary-content">
+                            <div class="summary-label">Current Streak</div>
+                            <div class="summary-value" id="current-streak">0 days</div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">✅</div>
+                        <div class="summary-content">
+                            <div class="summary-label">Tasks Completed</div>
+                            <div class="summary-value" id="tasks-completed">0/0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Subject Overview -->
+                <div class="quick-subjects">
+                    <h3>Active Subjects</h3>
+                    <div id="quick-subjects-list"></div>
+                </div>
+            </section>
+
+            <!-- Subjects View -->
+            <section class="view" id="subjects-view">
+                <div class="view-header">
+                    <h2>Subjects</h2>
+                    <button class="btn-primary" id="add-subject-btn">+ Add Subject</button>
+                </div>
+                <div class="subjects-grid" id="subjects-grid"></div>
+            </section>
+
+            <!-- Timer View -->
+            <section class="view" id="timer-view">
+                <div class="view-header">
+                    <h2>Study Timer</h2>
+                </div>
+                <div class="timer-container">
+                    <div class="subject-selector">
+                        <label for="timer-subject">Select Subject:</label>
+                        <select id="timer-subject" class="subject-select">
+                            <option value="">Choose a subject...</option>
+                        </select>
+                    </div>
+                    <div class="timer-display" id="timer-display">00:00:00</div>
+                    <div class="timer-controls">
+                        <button class="btn-timer" id="start-timer" disabled>▶ Start</button>
+                        <button class="btn-timer" id="pause-timer" disabled>⏸ Pause</button>
+                        <button class="btn-timer" id="reset-timer" disabled>↻ Reset</button>
+                    </div>
+                    <div class="timer-info" id="timer-info"></div>
+                </div>
+            </section>
+
+            <!-- Calendar View -->
+            <section class="view" id="calendar-view">
+                <div class="view-header">
+                    <h2>Calendar</h2>
+                    <div class="calendar-nav">
+                        <button class="btn-icon" id="prev-month">◀</button>
+                        <span id="calendar-month-year"></span>
+                        <button class="btn-icon" id="next-month">▶</button>
+                    </div>
+                </div>
+                <div class="calendar-grid" id="calendar-grid"></div>
+                <div class="day-details" id="day-details"></div>
+            </section>
+
+            <!-- History View -->
+            <section class="view" id="history-view">
+                <div class="view-header">
+                    <h2>Study History</h2>
+                    <div class="history-filters">
+                        <select id="history-filter" class="filter-select">
+                            <option value="all">All Sessions</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="history-list" id="history-list"></div>
+            </section>
+
+            <!-- Statistics View -->
+            <section class="view" id="stats-view">
+                <div class="view-header">
+                    <h2>Statistics</h2>
+                    <div class="stats-period">
+                        <button class="period-btn active" data-period="week">Week</button>
+                        <button class="period-btn" data-period="month">Month</button>
+                        <button class="period-btn" data-period="all">All Time</button>
+                    </div>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3>Total Study Time</h3>
+                        <div class="stat-value" id="total-study-time">0h 0m</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Subject Breakdown</h3>
+                        <div id="subject-breakdown"></div>
+                    </div>
+                    <div class="stat-card wide">
+                        <h3>Daily Study Chart</h3>
+                        <div class="chart" id="daily-chart"></div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Modal for Adding/Editing Subject -->
+    <div class="modal" id="subject-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="subject-modal-title">Add Subject</h3>
+                <button class="modal-close" id="close-subject-modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="subject-name">Subject Name</label>
+                    <input type="text" id="subject-name" placeholder="e.g., Physics">
+                </div>
+                <div class="form-group">
+                    <label for="subject-color">Color</label>
+                    <div class="color-picker">
+                        <input type="color" id="subject-color" value="#6366f1">
+                        <input type="text" id="subject-color-hex" value="#6366f1" maxlength="7">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancel-subject">Cancel</button>
+                <button class="btn-primary" id="save-subject">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Adding/Editing Task -->
+    <div class="modal" id="task-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="task-modal-title">Add Task</h3>
+                <button class="modal-close" id="close-task-modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="task-description">Task Description</label>
+                    <input type="text" id="task-description" placeholder="e.g., Complete Chapter 5">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancel-task">Cancel</button>
+                <button class="btn-primary" id="save-task">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Editing Goal -->
+    <div class="modal" id="goal-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Goal</h3>
+                <button class="modal-close" id="close-goal-modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="goal-name-input">Goal Name</label>
+                    <input type="text" id="goal-name-input" placeholder="e.g., NEET-UG 2026">
+                </div>
+                <div class="form-group">
+                    <label for="goal-date">Target Date</label>
+                    <input type="date" id="goal-date">
+                </div>
+                <div class="form-group">
+                    <label for="goal-start-date">Start Date (optional)</label>
+                    <input type="date" id="goal-start-date">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="reset-goal">Reset Goal</button>
+                <button class="btn-secondary" id="cancel-goal">Cancel</button>
+                <button class="btn-primary" id="save-goal">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Editing Session -->
+    <div class="modal" id="session-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Session</h3>
+                <button class="modal-close" id="close-session-modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="session-subject">Subject</label>
+                    <select id="session-subject" class="subject-select"></select>
+                </div>
+                <div class="form-group">
+                    <label for="session-date">Date</label>
+                    <input type="date" id="session-date">
+                </div>
+                <div class="form-group">
+                    <label for="session-start">Start Time</label>
+                    <input type="time" id="session-start">
+                </div>
+                <div class="form-group">
+                    <label for="session-end">End Time</label>
+                    <input type="time" id="session-end">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancel-session">Cancel</button>
+                <button class="btn-primary" id="save-session">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subject Detail Modal -->
+    <div class="modal" id="subject-detail-modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 id="subject-detail-name">Subject Details</h3>
+                <button class="modal-close" id="close-subject-detail">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="subject-actions">
+                    <button class="btn-secondary" id="edit-subject-btn">✏️ Edit Subject</button>
+                    <button class="btn-danger" id="delete-subject-btn">🗑️ Delete Subject</button>
+                </div>
+                <div class="subject-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Time:</span>
+                        <span class="stat-value" id="subject-total-time">0h 0m</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Sessions:</span>
+                        <span class="stat-value" id="subject-session-count">0</span>
+                    </div>
+                </div>
+                <div class="tasks-section">
+                    <div class="tasks-header">
+                        <h4>Tasks</h4>
+                        <button class="btn-small" id="add-task-btn">+ Add Task</button>
+                    </div>
+                    <div class="tasks-list" id="tasks-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
